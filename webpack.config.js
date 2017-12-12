@@ -1,4 +1,5 @@
-var HtmlPlugin = require('html-webpack-plugin'); // 自动生成html
+var HtmlPlugin = require('html-webpack-plugin'), // 自动生成html
+    ExtractTextPlugin = require('extract-text-webpack-plugin'); // 分离css
 
 module.exports = {
     entry: __dirname + '/src/main',
@@ -9,15 +10,19 @@ module.exports = {
     module: {
         rules: [{
             test: /\.scss$/,
-            use: ['style-loader', {
-                loader: 'css-loader',
-                options: {
-                    modules: true // 是否模块化，解决css选择器冲突
-                }
-            }, 'sass-loader']
+            use: ExtractTextPlugin.extract({
+                fallback: 'style-loader',
+                use: [{
+                    loader: 'css-loader',
+                    options: {
+                        modules: true
+                    }
+                }, 'sass-loader']
+            }),
         }]
     },
     plugins: [
-        new HtmlPlugin()
+        new HtmlPlugin(),
+        new ExtractTextPlugin('style.css')
     ]
 };
