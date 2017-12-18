@@ -14,10 +14,20 @@ module.exports = {
     },
     // 检查文件大小与提示
     performance: {
-        hints: 'error',
-        maxEntrypointSize: 1024 * 200, 
+        hints: 'warning',
+        maxEntrypointSize: 1024 * 500, 
         maxAssetSize: 1024 * 500
     },
+    devServer: {
+      compress: true,
+      port: 8081,
+      // 错误输出到浏览器
+      overlay: {
+        errors: true,
+        warnings: false
+      }
+    },
+    devtool: 'source-map', // js sourceMap
     module: {
         rules: [{
             test: /\.scss$/,
@@ -26,16 +36,22 @@ module.exports = {
                 use: [{
                     loader: 'css-loader',
                     options: {
-                        modules: true
+                        modules: true,
+                        sourceMap: true // css and sass sourceMap
                     }
-                }, 'sass-loader']
+                }, {
+                    loader: 'sass-loader',
+                    options: {
+                        sourceMap: true // css and sass sourceMap
+                    }
+                }]
             }),
         }]
     },
     plugins: [
         new HtmlPlugin(),
         new ExtractTextPlugin('style.css'),
-        new BabiliPlugin(),
+        // new BabiliPlugin(), // 使用sourcemap时，加入压缩插件会有问题
         new Webpack.optimize.CommonsChunkPlugin({
             name: ['common'] // 文件名，和合并到vendor
         }) // 公共部分代码优化合并

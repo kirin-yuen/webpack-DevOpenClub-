@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "rm -rf dist && webpack",
+    "dev": "webpack-dev-server",
     "build": "rm -rf dist && webpack -p",
     "analysis": "webpack --profile --json > analysis.json"
   },
@@ -28,7 +28,8 @@
     "node-sass": "^4.7.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0",
-    "webpack": "^3.10.0"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
     "jquery": "^3.2.1"
